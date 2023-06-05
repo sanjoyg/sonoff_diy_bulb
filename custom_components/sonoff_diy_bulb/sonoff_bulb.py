@@ -268,6 +268,11 @@ class sonoff_bulb:
         logger.debug("Setting White Device...: {}".format(self._device_id))
 
         br = sonoff_bulb.normalize_value(brightness, 0, 100)
+        
+        # First send turn_on only if brightness is not zero
+        if br != 0:
+            self.switch_on()
+            
         json_cmd = { "deviceid" : self._device_id, "data" : { "ltype" : "white", "white" : {"br" : br, "ct" : self._ct }}}
 
         code, data= self.send_request("/zeroconf/dimmable", json_cmd)
@@ -287,7 +292,10 @@ class sonoff_bulb:
         g_n = sonoff_bulb.normalize_value(g, 0, 255)
         b_n = sonoff_bulb.normalize_value(b, 0, 255)
 
-        json_cmd = { "deviceid" : self._device_id, "data" : { "ltype" : "color", "color": {"br" : self.brightness, "r" : r_n, "g" : g_n, "b" : b_n }}}
+        # First send turn_on 
+        self.switch_on()
+            
+        json_cmd = { "deviceid" : self._device_id, "data" : { "switch": "on", "ltype" : "color", "color": {"br" : self.brightness, "r" : r_n, "g" : g_n, "b" : b_n }}}
 
         code, data= self.send_request("/zeroconf/dimmable", json_cmd)
         if code != 200:
@@ -296,18 +304,23 @@ class sonoff_bulb:
 
         self._rgb=(r_n, g_n, b_n)
         self._ltype="color"
+        self._is_on = True 
 
     def set_brightness(self, brightness):
         logger.debug("Setting Brightness for Device...: {} with {}".format(self._device_id, brightness))
 
         br = sonoff_bulb.normalize_value(brightness, 0, 100)
         
+        # First send turn_on only if brightness is not zero
+        if br != 0:
+            self.switch_on()
+            
         json_cmd = { "deviceid" : self._device_id, "data" : { } }
 
         if self.ltype == "white":
-            json_cmd["data"] =  { "ltype" : "white", "white" : {"br" : br, "ct" : self.ct }}
+            json_cmd["data"] =  { "switch": "on", "ltype" : "white", "white" : {"br" : br, "ct" : self.ct }}
         else:
-            json_cmd["data"] =  { "ltype" : "color", "color" : {"br" : br, "r" : self._rgb[0], "g" : self._rgb[1], "b" : self._rgb[2] }}
+            json_cmd["data"] =  { "switch": "on", "ltype" : "color", "color" : {"br" : br, "r" : self._rgb[0], "g" : self._rgb[1], "b" : self._rgb[2] }}
 
         code, data= self.send_request("/zeroconf/dimmable", json_cmd)
         if code != 200:
@@ -315,6 +328,7 @@ class sonoff_bulb:
             return
 
         self._brightness = br
+        self._is_on = True 
 
     def set_ct(self,ct):
         # Color Temp in sonoff only works in white mode so we would force the
@@ -322,8 +336,11 @@ class sonoff_bulb:
 
         logger.debug("Setting CT Device... : {} with {}".format(self._device_id, ct))
 
+        # First send turn_on only 
+        self.switch_on()
+            
         ct_to_set = sonoff_bulb.normalize_value(ct, 0, 100)
-        json_cmd = { "deviceid" : self._device_id, "data" : { "ltype" : "white", "white" : { "br" : self.brightness, "ct" : ct_to_set }}}
+        json_cmd = { "deviceid" : self._device_id, "data" : { "switch": "on", "ltype" : "white", "white" : { "br" : self.brightness, "ct" : ct_to_set }}}
 
         code, data= self.send_request("/zeroconf/dimmable", json_cmd)
         if code != 200:
@@ -332,6 +349,7 @@ class sonoff_bulb:
 
         self._ct = ct_to_set
         self._ltype = "white"
+        self._is_on = "on"
         
     @staticmethod
     def normalize_value(value, min, max):
