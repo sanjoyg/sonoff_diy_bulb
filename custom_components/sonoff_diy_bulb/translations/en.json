@@ -1,0 +1,38 @@
+{
+  "config": {
+    "error": {
+      "not_found": "The given device_id could not be resolved or was unable to connect to...",
+      "trailing_space": "Cannot have trailing space in name or device_id",
+      "no_space": "Cannot have space in device_id"
+    },
+    "step": {
+      "user": {
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "mock": "Mock this bulb"
+        },
+        "description": "Enter Sonoff Bulb Details",
+        "title": "Sonoff DIY Bulb"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "not_found": "The given device_id could not be resolved or was unable to connect to...",
+      "trailing_space": "Cannot have trailing space in name or device_id",
+      "no_space": "Cannot have space in device_id"
+    },
+    "step": {
+      "init": {
+        "title": "Manage SonOff DIY Bulb",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "mock": "Mock this bulb"
+        },
+        "description": "Update SonOff DIY Bulb Setting..."
+      }
+    }
+  }
+}

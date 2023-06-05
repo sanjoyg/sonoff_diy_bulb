@@ -1,0 +1,9 @@
+{
+    "domain": "sonoff_diy_bulb",
+    "name": "Integration to handle SonOff Bulb in DIY Mode",
+    "config_flow": true,
+    "after_dependencies": ["http","zeroconf"],
+    "requirements": ["requests"],
+    "iot_class": "local_polling",
+    "version": "0.0.1"
+}
