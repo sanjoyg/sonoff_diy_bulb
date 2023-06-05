@@ -33,7 +33,7 @@ def is_sonoff_bulb(device_id, mock):
         return True
 
     try:
-        url = "http://eWeLink_{}.local".format(device_id)
+        url = "eWeLink_{}.local".format(device_id)
         logger.info("Will ping to check sonoff device: {}".format(url))
         socket.setdefaulttimeout(1)
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
