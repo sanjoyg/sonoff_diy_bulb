@@ -122,7 +122,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         self.config_entry = config_entry
 
     async def async_step_init( self, user_input: Dict[str, Any] = None) -> Dict[str, Any]:
-        logger.debug("async_step_init called...."")
+        logger.debug("async_step_init called....")
         
         errors: Dict[str, str] = {}
 
