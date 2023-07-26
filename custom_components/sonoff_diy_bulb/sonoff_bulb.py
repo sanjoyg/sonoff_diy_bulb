@@ -74,8 +74,8 @@ class sonoff_bulb:
             self._is_available = self.ping_device()
 
         except Exception as ex:
-            logger.debug(ex)
-            logger.debug("failed at is_available...")
+            logger.error(ex)
+            logger.error("failed at is_available... on : {}".format(self._name))
             self._is_available = False
 
         return self._is_available
@@ -122,8 +122,8 @@ class sonoff_bulb:
             logger.debug("Ping successful...")
 
         except Exception as error:
-            logger.debug(error)
-            logger.debug("Failed to ping...")
+            logger.error(error)
+            logger.error("Failed to ping... on: {}, using url: {}".format(self._name,self._resolved_url))
             return False
 
         return True
@@ -150,8 +150,8 @@ class sonoff_bulb:
             logger.debug("Resolved to: {}".format(self._resolved_url))
 
         except Exception as ex:
-            logger.debug(ex)
-            logger.debug("failed to resolve ip...")
+            logger.error(ex)
+            logger.error("failed to resolve ip... on: {}".format(self._name))
             self._resolved_url=self._url
 
     def send_request(self, url, req_body):
@@ -191,8 +191,8 @@ class sonoff_bulb:
             return response.status_code, response_json
 
         except Exception as ex:
-            logger.debug(ex)
-            logger.debug("Failed to send request....")
+            logger.error(ex)
+            logger.error("Failed to send request.... on: {}".format(self._name))
             return 404, "{}"
 
 
