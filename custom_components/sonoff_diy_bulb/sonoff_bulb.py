@@ -242,10 +242,13 @@ class sonoff_bulb:
 
     def switch_on(self):
         logger.debug("Switching On Device...: {}".format(self._device_id))
+        logger.info("Got request to switch on : {}", self._name)
 
         json_cmd = { "deviceid" : self._device_id, "data" : { "switch" : "on" } }
 
         code, data= self.send_request("/zeroconf/switch",json_cmd)
+        logger.info("Request result on  : {}, code : {}, data: {}", self._resolved_url, code, data)
+
         if code != 200:
             logger.debug("Return Code is not 200 : {}, returning...".format(code))
             return False
@@ -254,10 +257,13 @@ class sonoff_bulb:
 
     def switch_off(self):
         logger.debug("Switching Off Device...: {}".format(self._device_id))
+        logger.info("Got request to switch off : {}", self._name)
 
         json_cmd = { "deviceid" : self._device_id, "data" : { "switch" : "off" } }
 
         code, data= self.send_request("/zeroconf/switch",json_cmd)
+        logger.info("Request result off  : {}, code : {}, data: {}", self._resolved_url, code, data)
+
         if code != 200:
             logger.debug("Return Code is not 200 : {}, returning...".format(code))
             return False
