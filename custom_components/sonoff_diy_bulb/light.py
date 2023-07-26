@@ -1,6 +1,5 @@
 import logging
 import voluptuous as vol
-from pprint import pformat
 import homeassistant.helpers.config_validation as cv
 #from homeassistant.const import CONF_FILENAME, CONF_HOST
 from homeassistant.components.light import PLATFORM_SCHEMA
@@ -16,7 +15,6 @@ SCAN_INTERVAL = timedelta(seconds=10)
 
 from homeassistant.components.light import (
     ATTR_BRIGHTNESS,
-    ATTR_BRIGHTNESS_PCT,
     ATTR_COLOR_TEMP,
     ATTR_COLOR_TEMP_KELVIN,
     ATTR_EFFECT,
@@ -46,6 +44,7 @@ async def async_setup_platform(
         config : ConfigType, 
         add_entities : AddEntitiesCallback, 
         discovery_info : DiscoveryInfoType | None = None) -> None:
+
     logger.info("Setup Platform start...")
 
     name = config.get(CONF_NAME)
@@ -58,17 +57,17 @@ async def async_setup_platform(
 
 async def async_setup_entry(hass: HomeAssistant, config: ConfigEntry, async_add_entities: AddEntitiesCallback,) -> None:
     
-    logger.debug("In here at light with etnry")
-    logger.debug(config)
+    logger.debug("async_setup_entry started...")
     logger.debug(config.data)
+
     name = config.data[CONF_NAME]
     config_id = config.data[CONF_DEVICE_ID]
     mock = config.data["mock"]
 
-    logger.info("Mock Mode: {}".format(mock))
     async_add_entities([sonoff_diy_bulb(name, config_id, mock)], True)
-    logger.info("Setup Platform complete...")
-    
+
+    logger.debug("async_setup_entry complete...")
+
 class sonoff_diy_bulb(LightEntity):
     
     def __init__(self, name, device_id, mock=False) -> None:
@@ -114,13 +113,13 @@ class sonoff_diy_bulb(LightEntity):
     def turn_on(self, **kwargs):
         # Notes
         # when turned on only payload is {} , basically no attributes
-        # when brightness adjusted only payload is {brightness: value (0-254)}
+        # when brightness adjusted only payload is {brightness: value (0-255)}
         # when rgb adjusted only payload is {rgb values: value (0-255)}
         # when white selected only payload is {white: value (0-255)}
-        # when temp selected only payload is {color_temp: value , color_temp_kelvin: value }
+        # when temp selected only payload is {color_temp: value , color_temp: value }
 
         logger.debug("turn_on...")
-        logger.debug(pformat(kwargs))
+        logger.debug(kwargs)
 
         if len(kwargs.keys()) == 0:
             #Just Turn on
@@ -131,7 +130,7 @@ class sonoff_diy_bulb(LightEntity):
         if ATTR_WHITE in kwargs:
             # If request is white then brightness is passed
             logger.debug("Request to be white...")
-            brightness = int(kwargs[ATTR_WHITE] * 100/254) 
+            brightness = int(kwargs[ATTR_WHITE] * 100/255) 
             logger.debug("White brightness : {}".format(brightness))
             self._bulb.set_white(brightness)
             return
@@ -147,7 +146,7 @@ class sonoff_diy_bulb(LightEntity):
         if ATTR_BRIGHTNESS in kwargs:
             # brightness requested
             logger.debug("Request to set brightness...")
-            brightness = int(kwargs[ATTR_BRIGHTNESS] * 100/254) 
+            brightness = int(kwargs[ATTR_BRIGHTNESS] * 100/255) 
             logger.debug("Set brightness : {}".format(brightness))
             self._bulb.set_brightness(brightness)
             return
@@ -180,16 +179,20 @@ class sonoff_diy_bulb(LightEntity):
 
     @property
     def min_mireds(self) -> int:
-        return 1
+        logger.debug("get min_mireads")
+        return 1    # as per specs is 153   - basically 1000000/2700K
 
     @property
     def max_mireds(self) -> int:
-        return 100
+        logger.debug("get max_mireads")
+        return 100  # as per specs is 370 - basically 1000000/6500K
 
     @property
     def min_color_temp_kelvin(self) -> int:
-        return 1
+        logger.debug("get min color temp")
+        return 1    # as per specs 2700K
 
     @property
     def max_color_temp_kelvin(self) -> int:
-        return 100
+        logger.debug("get max color temp")
+        return 100  # as per specs 6500K

@@ -19,7 +19,7 @@ class sonoff_bulb_test_suite(unittest.TestCase):
 
         bulb.set_ct(100)
         url_expected="/zeroconf/dimmable"
-        req_expected={"deviceid" : "bulb_test", "data": { "ltype": "white", "white": {"br": 100, "ct": 100 }}}
+        req_expected={"deviceid" : "bulb_test", "data": { "switch": "on", "ltype": "white", "white": {"br": 100, "ct": 100 }}}
 
         bulb.send_request.assert_called_with(url_expected, req_expected)
         self.assertEqual(bulb.brightness,100)
@@ -32,7 +32,7 @@ class sonoff_bulb_test_suite(unittest.TestCase):
 
         bulb.set_ct(10)
         url_expected="/zeroconf/dimmable"
-        req_expected={"deviceid" : "bulb_test", "data": { "ltype": "white", "white": {"br": 100, "ct": 10 }}}
+        req_expected={"deviceid" : "bulb_test", "data": { "switch": "on", "ltype": "white", "white": {"br": 100, "ct": 10 }}}
 
         bulb.send_request.assert_called_with(url_expected, req_expected)
         self.assertEqual(bulb.brightness,100)
@@ -41,7 +41,7 @@ class sonoff_bulb_test_suite(unittest.TestCase):
 
         bulb.set_ct(-1)
         url_expected="/zeroconf/dimmable"
-        req_expected={"deviceid" : "bulb_test", "data": { "ltype": "white", "white": {"br": 100, "ct": 0 }}}
+        req_expected={"deviceid" : "bulb_test", "data": { "switch": "on", "ltype": "white", "white": {"br": 100, "ct": 0 }}}
 
         bulb.send_request.assert_called_with(url_expected, req_expected)
         self.assertEqual(bulb.brightness,100)
@@ -50,7 +50,7 @@ class sonoff_bulb_test_suite(unittest.TestCase):
 
         bulb.set_ct(101)
         url_expected="/zeroconf/dimmable"
-        req_expected={"deviceid" : "bulb_test", "data": { "ltype": "white", "white": {"br": 100, "ct": 100 }}}
+        req_expected={"deviceid" : "bulb_test", "data": { "switch": "on", "ltype": "white", "white": {"br": 100, "ct": 100 }}}
 
         bulb.send_request.assert_called_with(url_expected, req_expected)
         self.assertEqual(bulb.brightness,100)
@@ -62,7 +62,7 @@ class sonoff_bulb_test_suite(unittest.TestCase):
 
         bulb.set_ct(20)
         url_expected="/zeroconf/dimmable"
-        req_expected={"deviceid" : "bulb_test", "data": { "ltype": "white", "white": {"br": 100, "ct": 20 }}}
+        req_expected={"deviceid" : "bulb_test", "data": { "switch": "on", "ltype": "white", "white": {"br": 100, "ct": 20 }}}
 
         bulb.send_request.assert_called_with(url_expected, req_expected)
         self.assertEqual(bulb.brightness,100)

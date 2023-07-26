@@ -69,7 +69,6 @@ def validate_device_id(device_id):
 class sonoff_bulb_config_flow(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
 
-
     async def async_step_user(self, user_input):
         logger.debug("async_step_user")
         logger.debug("user_input")
@@ -78,7 +77,6 @@ class sonoff_bulb_config_flow(config_entries.ConfigFlow, domain=DOMAIN):
         
         if user_input is not None:
             logger.debug("async_step_user user_input is not none...")
-            logger.debug(user_input)
             
             valid, key = validate_name(user_input[CONF_NAME])
             
@@ -113,7 +111,6 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
     
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
         logger.debug("options flow handler init...")
-        logger.debug(config_entry)
         logger.debug(config_entry.version)
         logger.debug(config_entry.domain)
         logger.debug(config_entry.title)
@@ -125,6 +122,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         self.config_entry = config_entry
 
     async def async_step_init( self, user_input: Dict[str, Any] = None) -> Dict[str, Any]:
+        logger.debug("async_step_init called...."")
         
         errors: Dict[str, str] = {}
 

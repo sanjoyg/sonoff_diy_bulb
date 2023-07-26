@@ -74,8 +74,8 @@ class sonoff_bulb:
             self._is_available = self.ping_device()
 
         except Exception as ex:
-            logger.error(ex)
-            logger.error("failed at is_available...")
+            logger.debug(ex)
+            logger.debug("failed at is_available...")
             self._is_available = False
 
         return self._is_available
@@ -122,8 +122,8 @@ class sonoff_bulb:
             logger.debug("Ping successful...")
 
         except Exception as error:
-            logger.error(error)
-            logger.error("Failed to ping...")
+            logger.debug(error)
+            logger.debug("Failed to ping...")
             return False
 
         return True
@@ -150,8 +150,8 @@ class sonoff_bulb:
             logger.debug("Resolved to: {}".format(self._resolved_url))
 
         except Exception as ex:
-            logger.error(ex)
-            logger.error("failed to resolve ip...")
+            logger.debug(ex)
+            logger.debug("failed to resolve ip...")
             self._resolved_url=self._url
 
     def send_request(self, url, req_body):
@@ -172,7 +172,7 @@ class sonoff_bulb:
             logger.debug("Response JSON : {}".format(response.json()))
 
             if response.status_code != 200:
-                logger.error("Will return as status code is not 200: {}".format(response.status_code))
+                logger.debug("Will return as status code is not 200: {}".format(response.status_code))
                 self._is_available = self.ping_device()
                 return response.status_code, "{}"
 
@@ -183,7 +183,7 @@ class sonoff_bulb:
                 logger.error("Invalid return JSON : {}".format(response_json))
                 return -1, "{}"
             if response_json["error"] != 0:
-                logger.error("Service called return error : {}".format(response["error"]))
+                logger.debug("Service called return error : {}".format(response["error"]))
                 return -1, "{}"
 
             logger.debug("Send Request complete.. code: {}, response : {}".format(response.status_code, response_json))
@@ -191,8 +191,8 @@ class sonoff_bulb:
             return response.status_code, response_json
 
         except Exception as ex:
-            logger.error(ex)
-            logger.error("Failed to send request....")
+            logger.debug(ex)
+            logger.debug("Failed to send request....")
             return 404, "{}"
 
 
@@ -206,7 +206,7 @@ class sonoff_bulb:
 
         if code != 200:
             self._is_available = self.ping_device()
-            logger.error("Return Code is not 200 : {}, returning...".format(code))
+            logger.debug("Return Code is not 200 : {}, returning...".format(code))
             return False
 
         if json_ret is None:
@@ -247,7 +247,7 @@ class sonoff_bulb:
 
         code, data= self.send_request("/zeroconf/switch",json_cmd)
         if code != 200:
-            logger.error("Return Code is not 200 : {}, returning...".format(code))
+            logger.debug("Return Code is not 200 : {}, returning...".format(code))
             return False
 
         self._is_on = True
@@ -259,7 +259,7 @@ class sonoff_bulb:
 
         code, data= self.send_request("/zeroconf/switch",json_cmd)
         if code != 200:
-            logger.error("Return Code is not 200 : {}, returning...".format(code))
+            logger.debug("Return Code is not 200 : {}, returning...".format(code))
             return False
 
         self._is_on = False
@@ -277,7 +277,7 @@ class sonoff_bulb:
 
         code, data= self.send_request("/zeroconf/dimmable", json_cmd)
         if code != 200:
-            logger.error("Return Code is not 200 : {}, returning...".format(code))
+            logger.debug("Return Code is not 200 : {}, returning...".format(code))
             return False
 
         self._ltype = "white"
@@ -299,7 +299,7 @@ class sonoff_bulb:
 
         code, data= self.send_request("/zeroconf/dimmable", json_cmd)
         if code != 200:
-            logger.error("Return Code is not 200 : {}, returning...".format(code))
+            logger.debug("Return Code is not 200 : {}, returning...".format(code))
             return
 
         self._rgb=(r_n, g_n, b_n)
@@ -324,7 +324,7 @@ class sonoff_bulb:
 
         code, data= self.send_request("/zeroconf/dimmable", json_cmd)
         if code != 200:
-            logger.error("Return Code is not 200 : {}, returning...".format(code))
+            logger.debug("Return Code is not 200 : {}, returning...".format(code))
             return
 
         self._brightness = br
@@ -344,7 +344,7 @@ class sonoff_bulb:
 
         code, data= self.send_request("/zeroconf/dimmable", json_cmd)
         if code != 200:
-            logger.error("Return Code is not 200 : {}, returning...".format(code))
+            logger.debug("Return Code is not 200 : {}, returning...".format(code))
             return
 
         self._ct = ct_to_set

@@ -20,7 +20,7 @@ class sonoff_bulb_test_suite(unittest.TestCase):
 
         bulb.set_rgb(11,22,33)
         url_expected="/zeroconf/dimmable"
-        req_expected={"deviceid" : "bulb_test", "data": { "ltype": "color", "color": {"br": 100, "r": 11, "g": 22,  "b": 33}}}
+        req_expected={"deviceid" : "bulb_test", "data": { "switch": "on", "ltype": "color", "color": {"br": 100, "r": 11, "g": 22,  "b": 33}}}
         headers={"Content-Type": "application/json"}
 
         bulb.send_request.assert_called_with(url_expected, req_expected)
@@ -31,7 +31,7 @@ class sonoff_bulb_test_suite(unittest.TestCase):
 
         bulb.set_rgb(-1,22,33)
         url_expected="/zeroconf/dimmable"
-        req_expected={"deviceid" : "bulb_test", "data": { "ltype": "color", "color": {"br": 100, "r": 0, "g": 22,  "b": 33}}}
+        req_expected={"deviceid" : "bulb_test", "data": { "switch": "on", "ltype": "color", "color": {"br": 100, "r": 0, "g": 22,  "b": 33}}}
         headers={"Content-Type": "application/json"}
 
         bulb.send_request.assert_called_with(url_expected, req_expected)
@@ -42,7 +42,7 @@ class sonoff_bulb_test_suite(unittest.TestCase):
 
         bulb.set_rgb(11,-1,33)
         url_expected="/zeroconf/dimmable"
-        req_expected={"deviceid" : "bulb_test", "data": { "ltype": "color", "color": {"br": 100, "r": 11, "g": 0,  "b": 33}}}
+        req_expected={"deviceid" : "bulb_test", "data": { "switch": "on", "ltype": "color", "color": {"br": 100, "r": 11, "g": 0,  "b": 33}}}
         headers={"Content-Type": "application/json"}
 
         bulb.send_request.assert_called_with(url_expected, req_expected)
@@ -53,7 +53,7 @@ class sonoff_bulb_test_suite(unittest.TestCase):
 
         bulb.set_rgb(11,22,-1)
         url_expected="/zeroconf/dimmable"
-        req_expected={"deviceid" : "bulb_test", "data": { "ltype": "color", "color": {"br": 100, "r": 11, "g": 22,  "b": 0}}}
+        req_expected={"deviceid" : "bulb_test", "data": { "switch": "on", "ltype": "color", "color": {"br": 100, "r": 11, "g": 22,  "b": 0}}}
         headers={"Content-Type": "application/json"}
 
         bulb.send_request.assert_called_with(url_expected, req_expected)
@@ -64,7 +64,7 @@ class sonoff_bulb_test_suite(unittest.TestCase):
 
         bulb.set_rgb(256,22,33)
         url_expected="/zeroconf/dimmable"
-        req_expected={"deviceid" : "bulb_test", "data": { "ltype": "color", "color": {"br": 100, "r": 255, "g": 22,  "b": 33}}}
+        req_expected={"deviceid" : "bulb_test", "data": { "switch": "on", "ltype": "color", "color": {"br": 100, "r": 255, "g": 22,  "b": 33}}}
         headers={"Content-Type": "application/json"}
 
         bulb.send_request.assert_called_with(url_expected, req_expected)
@@ -75,7 +75,7 @@ class sonoff_bulb_test_suite(unittest.TestCase):
 
         bulb.set_rgb(11,256,33)
         url_expected="/zeroconf/dimmable"
-        req_expected={"deviceid" : "bulb_test", "data": { "ltype": "color", "color": {"br": 100, "r": 11, "g": 255,  "b": 33}}}
+        req_expected={"deviceid" : "bulb_test", "data": { "switch": "on", "ltype": "color", "color": {"br": 100, "r": 11, "g": 255,  "b": 33}}}
         headers={"Content-Type": "application/json"}
 
         bulb.send_request.assert_called_with(url_expected, req_expected)
@@ -86,7 +86,7 @@ class sonoff_bulb_test_suite(unittest.TestCase):
 
         bulb.set_rgb(11,22,256)
         url_expected="/zeroconf/dimmable"
-        req_expected={"deviceid" : "bulb_test", "data": { "ltype": "color", "color": {"br": 100, "r": 11, "g": 22,  "b": 255}}}
+        req_expected={"deviceid" : "bulb_test", "data": { "switch": "on", "ltype": "color", "color": {"br": 100, "r": 11, "g": 22,  "b": 255}}}
         headers={"Content-Type": "application/json"}
 
         bulb.send_request.assert_called_with(url_expected, req_expected)
